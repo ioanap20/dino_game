@@ -1,0 +1,15 @@
+.dino {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    bottom: 50px;
+    text-align: center;
+}
+.tree {
+    position: absolute;
+    width: 100px; 
+    height: 100px; 
+    bottom: 50px;
+    right: 0;
+    text-align: center;
+}
