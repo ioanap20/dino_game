@@ -1,18 +1,26 @@
 const game = document.querySelector("body");
-let gameStatus = 0;
+
+const gameStatus = document.querySelector(".gameStatus");
+gameStatus.classList.add("gameStatusFalse");
+
 const trees = []
+
 
 document.addEventListener("keydown", Game);
 
+
 function Game(event) {
     
-    if (event.code === "Enter" && gameStatus === 1) {
-        gameStatus = 0;
+    if (event.code === "Enter" && gameStatus.classList.contains("gameStatusTrue")) {
+        gameStatus.classList.remove("gameStatusTrue");
+        gameStatus.classList.add("gameStatusFalse");
         location.reload();
     }
+
     
-    if (event.code === "Enter" && gameStatus === 0) {
-        gameStatus = 1;
+    if (event.code === "Enter" && gameStatus.classList.contains("gameStatusFalse")) {
+        gameStatus.classList.remove("gameStatusFalse");
+        gameStatus.classList.add("gameStatusTrue");
         const dinoScript = document.createElement("script");
         dinoScript.src = "dino.js";
         document.body.appendChild(dinoScript);
@@ -40,14 +48,27 @@ function moveTree(tree) {
     
     function move() {
 
+        
+
         if (currentPosition <= 0) {
             trees.splice(trees.indexOf(tree), 1);
         }
 
         currentPosition -= 4; 
         tree.style.left = currentPosition + 'px';
+        
+        checkCollision();
+
+        if (gameStatus.classList.contains("gameStatusFalse")){
+            return;
+        }
+        
         requestAnimationFrame(move);
     }
     move();
     
 }
+
+
+
+

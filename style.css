@@ -6,10 +6,10 @@
     text-align: center;
 }
 .tree {
-    position: absolute;
+    position: fixed;
     width: 100px; 
     height: 100px; 
-    bottom: 50px;
+    bottom: 100px;
     right: 0;
     text-align: center;
 }
