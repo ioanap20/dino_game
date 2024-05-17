@@ -1,15 +1,72 @@
 .dino {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     position: absolute;
     bottom: 50px;
     text-align: center;
 }
 .tree {
     position: fixed;
-    width: 100px; 
-    height: 100px; 
+    width: 80px; 
+    height: 80px; 
     bottom: 100px;
     right: 0;
+    text-align: center;
+}
+
+#startButton{
+    position: absolute;
+    top: 100px;
+    left: 40%;
+    background-color: transparent;
+    border : none;
+    color: rgb(235, 11, 157);
+    font-size: 50px;
+}
+
+#startButton:hover {
+    color: red;
+    font-weight: bold;
+}  
+
+#failedButton{
+    position: absolute;
+    top: 100px;
+    left: 30%;
+    background-color: transparent;
+    border : none;
+    color: rgb(235, 11, 157);
+    font-size: 50px;
+}
+
+#failedButton:hover {
+    color: red;
+    font-weight: bold;
+}
+
+.starsBox {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.star {
+    border: 2px solid black;
+    color: red;
+    font-size: 24px;
+    margin-right: 5px;
+}
+
+.star.white {
+    color: white;
+}
+.hidden {
+    display: none;
+}
+
+h1{
+    color: rgb(235, 11, 157);
+    font-size: 50px;
     text-align: center;
 }

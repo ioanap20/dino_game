@@ -1,54 +1,74 @@
-const game = document.querySelector("body");
-
 const gameStatus = document.querySelector(".gameStatus");
-gameStatus.classList.add("gameStatusFalse");
+gameStatus.classList.add("firstGame");
 
-const trees = []
+const trees = [];
+let animationFrameId;
 
+let remainingStars = 3;
+const stars = document.querySelectorAll(".star");
+const startButton = document.getElementById("startButton");
+const failedButton = document.getElementById("failedButton");
+const gameOver = document.getElementById("gameOver");
 
-document.addEventListener("keydown", Game);
+startButton.addEventListener("click", startGame);
+failedButton.addEventListener("click", restartGame);
 
-
-function Game(event) {
-    
-    if (event.code === "Enter" && gameStatus.classList.contains("gameStatusTrue")) {
-        gameStatus.classList.remove("gameStatusTrue");
-        gameStatus.classList.add("gameStatusFalse");
-        location.reload();
-    }
-
-    
-    if (event.code === "Enter" && gameStatus.classList.contains("gameStatusFalse")) {
-        gameStatus.classList.remove("gameStatusFalse");
-        gameStatus.classList.add("gameStatusTrue");
-        const dinoScript = document.createElement("script");
-        dinoScript.src = "dino.js";
-        document.body.appendChild(dinoScript);
-        setInterval(createNewTree, 2000);
+function startGame() {
+    if (gameStatus.classList.contains("firstGame")) {
+        gameStatus.classList.remove("firstGame");
+        gameStatus.classList.add("ongoingGame");
+        startButton.classList.add("hidden");
+        treeInterval = setInterval(createNewTree, 2500);
     }
 }
-    function createNewTree() {
-        //const newTree = document.createElement("div");
-        //newTree.classList.add("tree");
-        const treeImage = document.createElement("img");
-        console.log(treeImage);
-        treeImage.src = "tree.jpg";
-        treeImage.alt = "tree";
-        treeImage.classList.add("tree");
-        //newTree.appendChild(treeImage);
-        document.body.appendChild(treeImage);
-        trees.push(treeImage);
-        moveTree(treeImage);
+
+function endGame() { 
+    gameOver.classList.remove("hidden");
+}
+
+function restartGame() {
+
+
+    failedButton.classList.add("hidden");
+
+    gameStatus.classList.remove("collision");
+
+    trees.forEach(tree => tree.remove());
+    trees.length = 0;
+
+    clearInterval(treeInterval);
+
+
+    treeInterval = setInterval(createNewTree, 2500);
+
+}
+
+function createNewTree() {
+    const treeImage = document.createElement("img");
+    treeImage.src = "tree.jpg";
+    treeImage.alt = "tree";
+    treeImage.classList.add("tree");
+    document.body.appendChild(treeImage);
+    trees.push(treeImage);
+    moveTree(treeImage);
 }
 
 function moveTree(tree) {
-
     const containerWidth = window.innerWidth;
     let currentPosition = containerWidth;
-    
+
+    move();
+
     function move() {
 
-        
+        if (gameStatus.classList.contains("collision")) {
+            
+            cancelAnimationFrame(animationFrameId);
+            tree.remove();
+            //trees.splice(trees.indexOf(tree), 1);
+
+            return;
+        }
 
         if (currentPosition <= 0) {
             trees.splice(trees.indexOf(tree), 1);
@@ -57,18 +77,69 @@ function moveTree(tree) {
         currentPosition -= 4; 
         tree.style.left = currentPosition + 'px';
         
-        checkCollision();
+        if (!checkCollision(tree)) {
+            if (remainingStars === 1) {
+                decreaseStars();
+                endGame();
+            }
 
-        if (gameStatus.classList.contains("gameStatusFalse")){
+            else{
+                decreaseStars();
+                failedButton.classList.remove("hidden");
+            }
+            
+            console.log("Game Over");
+            //clearInterval(treeInterval);
+            cancelAnimationFrame(animationFrameId);
+            tree.remove();
+            //trees.splice(trees.indexOf(tree), 1);
+            gameStatus.classList.add("collision");
             return;
-        }
+        }  
         
-        requestAnimationFrame(move);
+        animationFrameId = requestAnimationFrame(move);
     }
-    move();
-    
+
 }
 
 
 
 
+function checkCollision(tree) {
+    const dinoRect = document.querySelector(".dino").getBoundingClientRect();
+    //const trees = document.querySelectorAll(".tree");
+
+    const dinoCenterX = (dinoRect.left + dinoRect.width) / 2;
+    const dinoCenterY = (dinoRect.top + dinoRect.height) / 2;
+
+    //for (let i = 0; i < trees.length; i++) {
+        //const treeRect = trees[i].getBoundingClientRect();
+        const treeRect = tree.getBoundingClientRect();
+
+        const treeCenterX = (treeRect.left + treeRect.width) / 2;
+        const treeCenterY = (treeRect.top + treeRect.height) / 2;
+
+        if (
+            /*dinoRect.right >= treeRect.left &&
+            dinoRect.left <= treeRect.right &&
+            dinoRect.bottom >= treeRect.top &&
+            dinoRect.top <= treeRect.bottom*/
+            Math.abs(dinoCenterX - treeCenterX) < 30 &&
+            Math.abs(dinoCenterY - treeCenterY) < 30
+        ) {
+            return false;
+        }
+    //}
+    
+    return true;
+}
+
+function decreaseStars() {
+    remainingStars--;
+    for (let i = 0; i < stars.length; i++) {
+        if (!stars[i].classList.contains("white")) {
+            stars[i].classList.add("white"); 
+            return;
+        }
+    }
+}

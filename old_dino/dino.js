@@ -1,9 +1,11 @@
+"use strict"; 
+
 const dino = document.querySelector(".dino");
 
 let dinoY = 50;
 let jumping = false;
-let jumpHeight = 300;
-const jumpSpeed = 4;
+let jumpHeight = 200;
+const jumpSpeed = 3;
 
 document.addEventListener("keydown", pressDownAction);
 document.addEventListener("keyup", pressUpAction);
@@ -20,6 +22,7 @@ function pressDownAction(event) {
         jump();
     }
 }
+
 function jump() {
     if (dinoY >= jumpHeight) {
         jumping = false;
@@ -34,6 +37,8 @@ function jump() {
 }
 
 function fall() {
+
+
     if (dinoY <= 50) {
         dinoY = 50;
         dino.style.bottom = dinoY + "px";
@@ -45,3 +50,4 @@ function fall() {
 
     requestAnimationFrame(fall);
 }
+

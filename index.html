@@ -1,17 +1,29 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" >
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> Dino game project </title>
-
-    <link rel="stylesheet" type = "text/css" href="style.css">
+    <title>Dino game project</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <canvas id = "gameScreen"></canvas>
+    <canvas id="gameScreen"></canvas>
     <div class="gameStatus"></div>
-    <div class ="dino">
-        <img src = "dino.jpg" alt = "dino" class = "dino">
+    <div class="starsBox">
+        <span class="star" style="font-size: 30px;">&#9733;</span>
+        <span class="star" style="font-size: 30px;">&#9733;</span>
+        <span class="star" style="font-size: 30px;">&#9733;</span>
     </div>
-    <script src = "game.js"></script>
+    <div class="dino">
+        <img src="dino.jpg" alt="dino" class="dino">
+    </div>
+    <button id="startButton">Start Game!!</button>
+    <button id="failedButton" class="hidden">One star down, try again!!</button>
+    <div id="gameOver" class = "hidden">
+        <h1>Game Over!!</h1>
+    </div>
+    
+    <script src="game.js"></script>
+    <script src="dino.js"></script>
 </body>
 </html>
