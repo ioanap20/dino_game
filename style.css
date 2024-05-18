@@ -70,3 +70,17 @@ h1{
     font-size: 50px;
     text-align: center;
 }
+
+body{
+    background-image: url("background.jpg");
+    background-size: cover; /* Cover the entire background */
+    background-attachment: fixed; /* The background image is fixed */
+}
+
+.score {
+    position: absolute;
+    top: 80px;
+    left: 45%;
+    font-size: 24px;
+    color: rgb(235, 11, 157);
+}

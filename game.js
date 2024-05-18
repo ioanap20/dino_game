@@ -1,7 +1,9 @@
 const gameStatus = document.querySelector(".gameStatus");
 gameStatus.classList.add("firstGame");
+const scoreElement = document.querySelector(".score");
 
 const trees = [];
+let passedTrees = 0;
 let animationFrameId;
 
 let remainingStars = 3;
@@ -28,6 +30,7 @@ function endGame() {
 
 function restartGame() {
 
+    console.log(passedTrees);
 
     failedButton.classList.add("hidden");
 
@@ -62,16 +65,24 @@ function moveTree(tree) {
     function move() {
 
         if (gameStatus.classList.contains("collision")) {
-            
+
+                        
             cancelAnimationFrame(animationFrameId);
             tree.remove();
-            //trees.splice(trees.indexOf(tree), 1);
 
+            clearInterval(treeInterval);
             return;
         }
 
         if (currentPosition <= 0) {
-            trees.splice(trees.indexOf(tree), 1);
+
+            tree.remove();
+
+            passedTrees++; // Increment score
+            updateScore(); // Update score display
+
+            return;
+            
         }
 
         currentPosition -= 4; 
@@ -89,10 +100,8 @@ function moveTree(tree) {
             }
             
             console.log("Game Over");
-            //clearInterval(treeInterval);
             cancelAnimationFrame(animationFrameId);
             tree.remove();
-            //trees.splice(trees.indexOf(tree), 1);
             gameStatus.classList.add("collision");
             return;
         }  
@@ -107,29 +116,21 @@ function moveTree(tree) {
 
 function checkCollision(tree) {
     const dinoRect = document.querySelector(".dino").getBoundingClientRect();
-    //const trees = document.querySelectorAll(".tree");
 
     const dinoCenterX = (dinoRect.left + dinoRect.width) / 2;
     const dinoCenterY = (dinoRect.top + dinoRect.height) / 2;
 
-    //for (let i = 0; i < trees.length; i++) {
-        //const treeRect = trees[i].getBoundingClientRect();
         const treeRect = tree.getBoundingClientRect();
 
         const treeCenterX = (treeRect.left + treeRect.width) / 2;
         const treeCenterY = (treeRect.top + treeRect.height) / 2;
 
         if (
-            /*dinoRect.right >= treeRect.left &&
-            dinoRect.left <= treeRect.right &&
-            dinoRect.bottom >= treeRect.top &&
-            dinoRect.top <= treeRect.bottom*/
             Math.abs(dinoCenterX - treeCenterX) < 30 &&
             Math.abs(dinoCenterY - treeCenterY) < 30
         ) {
             return false;
         }
-    //}
     
     return true;
 }
@@ -142,4 +143,8 @@ function decreaseStars() {
             return;
         }
     }
+}
+
+function updateScore() {
+    scoreElement.textContent = `Trees Passed: ${passedTrees}`;
 }
