@@ -8,7 +8,7 @@ const trees = [];
 const intervals = [3000, 4000, 2000];
 let passedTrees = 0;
 let animationFrameId;
-let treeInterval;
+let treeTimeout;
 
 let remainingStars = 3;
 const stars = document.querySelectorAll(".star");
@@ -62,23 +62,37 @@ function startGame() {
 function scheduleNextTree() {
     const randomIndex = Math.floor(Math.random() * 3);
 
-    setTimeout(createNewTree, intervals[randomIndex]);
+    treeTimeout = setTimeout(createNewTree, intervals[randomIndex]);
 }
 
 function endGame() { 
+
+    clearTimeout(treeTimeout);
     gameOver.classList.remove("hidden");
+    if (chosenColor){
+        image.src = "sitting_"+chosenColor+".gif";
+    }
+    else {
+        image.src = "sitting_blue.gif";
+    }
 }
 
 function restartGame() {
+
+    if (chosenColor) {
+        image.src = "moving_"+chosenColor+".gif";
+    }
+    else {
+        image.src = "moving_blue.gif";
+    }
+
+    clearTimeout(treeTimeout);
 
     failedButton.classList.add("hidden");
     gameStatus.classList.remove("collision");
 
     trees.forEach(tree => tree.remove());
     trees.length = 0;
-
-
-    gameOver.classList.add("hidden");
 
 
     scheduleNextTree(); 
@@ -94,9 +108,7 @@ function createNewTree() {
     trees.push(treeImage);
     moveTree(treeImage);
     
-    if (!gameStatus.classList.contains("collision")) {
-        scheduleNextTree(); 
-    }
+    scheduleNextTree(); 
 }
 
 function moveTree(tree) {
@@ -112,14 +124,13 @@ function moveTree(tree) {
 
                         
             cancelAnimationFrame(animationFrameId);
-            tree.remove();
+            //tree.remove();
 
-            //clearInterval(treeInterval);
+            clearTimeout(treeTimeout);
             return;
         }
 
         if (dinoX > currentPosition) {
-
 
             tree.remove();
             passedTrees++;
@@ -132,6 +143,7 @@ function moveTree(tree) {
         
         if (!checkCollision(tree)) {
             if (remainingStars === 1) {
+                tree.remove();
                 decreaseStars();
                 endGame();
             }
@@ -140,8 +152,14 @@ function moveTree(tree) {
                 decreaseStars();
                 failedButton.classList.remove("hidden");
             }
-            
-            console.log("Game Over");
+
+            if (chosenColor){
+                image.src = "sitting_"+chosenColor+".gif";
+            }
+            else {
+                image.src = "sitting_blue.gif";
+            }
+
             cancelAnimationFrame(animationFrameId);
             tree.remove();
             gameStatus.classList.add("collision");

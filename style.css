@@ -150,16 +150,19 @@
 .star.white {
     color: white;
 }
+
 .hidden {
     display: none;
 }
 
-h1{
+#gameOver {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 70px;
     color: rgb(235, 11, 157);
-    font-size: 50px;
-    text-align: center;
 }
-
 
 #gameScreen {
     display: block;

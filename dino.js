@@ -5,7 +5,7 @@ const dino = document.querySelector(".dino");
 let dinoY = 50;
 let jumping = false;
 const jumpHeight = 300; 
-const jumpDuration = 800; 
+const jumpDuration = 600; 
 let jumpStartTime = 0;
 
 document.addEventListener("keydown", pressDownAction);
