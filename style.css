@@ -5,6 +5,7 @@
     bottom: 50px;
     text-align: center;
 }
+
 .tree {
     position: fixed;
     width: 80px; 
@@ -14,20 +15,108 @@
     text-align: center;
 }
 
-#startButton{
+.button {
     position: absolute;
-    top: 100px;
-    left: 40%;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: transparent;
     border : none;
     color: rgb(235, 11, 157);
+}
+
+.button:hover {
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#personaliseButton{
+    top: 100px;
     font-size: 50px;
 }
 
-#startButton:hover {
-    color: red;
+#nameButton{
+    top: 105px;
+    font-size: 40px;
+}
+
+.names {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgb(235, 11, 157);
+}
+
+#name {
+    top: 105px;
+    font-size: 30px;
+}
+
+#name2 {
+    top: 175px;
+    font-size: 40px;
+}
+
+#colorButton{
+    top: 175px;
+    font-size: 40px;
+}
+
+.color{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+}
+
+.color:hover {
     font-weight: bold;
-}  
+    cursor: pointer;
+} 
+
+#blue {
+    top: 105px;
+    color: rgb(35,202,228);
+}
+
+#purple {
+    top: 175px;
+    color: rgba(147,141,232,255);
+}
+
+#pink {
+    top: 245px;
+    color: rgba(248,152,204,255);
+}
+
+#orange {
+    top: 315px;
+    color: rgba(254,162,101,255);
+}
+
+#green {
+    top: 385px;
+    color: rgba(141,232,176,255);
+}
+
+#doneButton{
+    top: 455px;
+    font-size: 30px;
+}
+
+#startButton{
+    top: 170px;
+    font-size: 50px;
+}
+
+.how {
+    text-align: center;
+    position: absolute;
+    top: 240px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgb(235, 11, 157);
+}
 
 #failedButton{
     position: absolute;
@@ -71,16 +160,21 @@ h1{
     text-align: center;
 }
 
-body{
-    background-image: url("background.jpg");
-    background-size: cover; /* Cover the entire background */
-    background-attachment: fixed; /* The background image is fixed */
+
+#gameScreen {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .score {
     position: absolute;
     top: 80px;
-    left: 45%;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 24px;
     color: rgb(235, 11, 157);
 }

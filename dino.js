@@ -1,9 +1,12 @@
+"use strict";
+
 const dino = document.querySelector(".dino");
 
 let dinoY = 50;
 let jumping = false;
 const jumpHeight = 300; 
-const jumpDuration = 1000; 
+const jumpDuration = 800; 
+let jumpStartTime = 0;
 
 document.addEventListener("keydown", pressDownAction);
 document.addEventListener("keyup", pressUpAction);

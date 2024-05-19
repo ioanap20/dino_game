@@ -1,43 +1,45 @@
-"use strict"; 
+"use strict";
 
 const dino = document.querySelector(".dino");
 
 let dinoY = 50;
 let jumping = false;
-let jumpHeight = 200;
-const jumpSpeed = 3;
+const jumpHeight = 300; 
+const jumpDuration = 800; 
+let jumpStartTime = 0;
 
 document.addEventListener("keydown", pressDownAction);
 document.addEventListener("keyup", pressUpAction);
 
 function pressUpAction(event) {
-    if (event.code === "Space" && jumping) {
-        jumping = false;
-    }
-}
-
-function pressDownAction(event) {
     if (event.code === "Space" && !jumping) {
         jumping = true;
-        jump();
+        jumpStartTime = performance.now(); 
+        requestAnimationFrame(jump);
     }
 }
 
 function jump() {
-    if (dinoY >= jumpHeight) {
-        jumping = false;
-        fall();
-        return;
-    }
-    
-    dinoY += jumpSpeed;
+    const currentTime = performance.now();
+    const elapsedTime = currentTime - jumpStartTime;
+    const velocity = 0.4;
+
+    const jumpDistance = elapsedTime * velocity;
+
+    dinoY = 50 + jumpDistance;
     dino.style.bottom = dinoY + "px";
 
-    requestAnimationFrame(jump);
+    if (elapsedTime < jumpDuration) {
+        requestAnimationFrame(jump);
+    } else {
+        jumping = false;
+        fall(jumpStartTime); 
+    }
 }
 
-function fall() {
-
+function fall(jumpStartTime) {
+    const currentTime = performance.now();
+    const elapsedTime = currentTime - jumpStartTime;
 
     if (dinoY <= 50) {
         dinoY = 50;
@@ -45,9 +47,16 @@ function fall() {
         return;
     }
 
-    dinoY -= jumpSpeed;
+    const gravity = 0.005; 
+    const fallDistance = gravity * elapsedTime;
+    dinoY -= fallDistance;
     dino.style.bottom = dinoY + "px";
 
-    requestAnimationFrame(fall);
+    requestAnimationFrame(() => fall(jumpStartTime)); 
 }
 
+function pressDownAction(event) {
+    if (event.code === "Space" && jumping) {
+        jumping = false;
+    }
+}

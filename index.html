@@ -15,16 +15,45 @@
         <span class="star" style="font-size: 30px;">&#9733;</span>
     </div>
     <div class="dino">
-        <img src="dino.jpg" alt="dino" class="dino">
+        <img src="sitting_blue.gif" alt="dino" class="dino">
     </div>
-    <button id="startButton">Start Game!!</button>
-    <button id="failedButton" class="hidden">One star down, try again!!</button>
-    <div id="gameOver" class = "hidden">
-        <h1>Game Over!!</h1>
-    </div>
-
+    
     <div class="score">Trees Passed: 0</div>
     
+    <div> <button class="button" id="personaliseButton">Personalise!!</button> </div>
+
+    <div> <button class="button" id="nameButton">Choose your name</button> </div>
+    <p class="names" id="name"> Type your name: <input id="textEntry" type="text"> </p>
+    <p class="names" id="name2"> Hello <span id="textRender"></span>!! </p>
+
+    <div> <button class="button" id="colorButton">Choose your color</button> </div>
+    <div class="colors">
+        <div class="color" id="blue">Blue</div>
+        <div class="color" id="purple">Purple</div>
+        <div class="color" id="pink">Pink</div>
+        <div class="color" id="orange">Orange</div>
+        <div class="color" id="green">Green</div>
+    </div>
+
+    <div> <button class="button" id="doneButton">Done</button> </div>
+
+    <div> <button class="button" id="startButton">Start Game!!</button> </div>
+    <div class="how" id="how">
+    <p> How to play? </p>
+    This game is very simple.
+    The first step is to click on 'Personalise!!' to make your character be a bit more like you.
+    Select your name by entering your name in the box and don't forget to pick a color too!
+    If you are done with this, you just have to remember that to jump press 'space' in your keyboard.
+    The aim is to jump as many trees as you can without crashing.
+    Now you are ready. Press 'Start Game!!' and have lots of fuuunnn!!!
+    </div>
+
+    <button id="failedButton" class="hidden">One star down <span id="textName"></span>, try again!!</button>
+    <div id="gameOver" class="hidden">
+        <h1>Game Over!!</h1>
+    </div>
+    
+    <script src="personalise.js"></script>
     <script src="game.js"></script>
     <script src="dino.js"></script>
 </body>
