@@ -1,9 +1,11 @@
+const score = document.querySelector(".score");
 const personaliseButton = document.getElementById("personaliseButton");
 const nameButton = document.getElementById("nameButton");
 const names = document.getElementById("name");
 const textEntry = document.querySelector("#textEntry");
 const textRender = document.querySelector("#textRender");
-const textName = document.querySelector("#textName");
+const textName1 = document.querySelector("#textName1");
+const textName2 = document.querySelector("#textName2");
 const names2 = document.getElementById("name2");
 const colorButton = document.getElementById("colorButton");
 const colors = document.querySelectorAll(".color");
@@ -23,6 +25,7 @@ for (const color of colors) {
 }
 doneButton.addEventListener("click", doneStep);
 
+score.classList.add("hidden");
 nameButton.classList.add("hidden");
 names.classList.add("hidden");
 names2.classList.add("hidden");
@@ -52,7 +55,8 @@ function nameCharacter() {
 
 function textModified(event) {
     textRender.textContent = textEntry.value;
-    textName.textContent = textEntry.value;
+    textName1.textContent = textEntry.value;
+    textName2.textContent = textEntry.value;
     names2.classList.remove("hidden");
 }
 

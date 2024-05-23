@@ -1,28 +1,77 @@
 "use strict";
 
 const gameStatus = document.querySelector(".gameStatus");
-gameStatus.classList.add("firstGame");
 const scoreElement = document.querySelector(".score");
+const finalscoreElement = document.querySelector(".finalscore");
+const dino = document.querySelector(".dino");
+const dificultyButton = document.querySelector(".dificulty");
+
+const yesDificultyButton = document.getElementById("yesDificulty");
+const noDificultyButton = document.getElementById("noDificulty");
 
 const trees = [];
 const intervals = [3000, 4000, 2000];
 let passedTrees = 0;
 let animationFrameId;
-let treeInterval;
+let treeTimeout;
 
 let remainingStars = 3;
 const stars = document.querySelectorAll(".star");
 const startButton = document.getElementById("startButton");
 const failedButton = document.getElementById("failedButton");
 const gameOver = document.getElementById("gameOver");
+const gameEnding = document.getElementById("ending");
+const passTrees = document.querySelector("#passTrees");
+const playagainButton = document.getElementById("playagainButton");
+
+
+gameStatus.classList.add("firstGame");
+gameEnding.classList.add("hidden");
+playagainButton.classList.add("hidden");
+dificultyButton.classList.add("hidden");
 
 startButton.addEventListener("click", startGame);
 failedButton.addEventListener("click", restartGame);
+playagainButton.addEventListener("click", restart2Game);
+yesDificultyButton.addEventListener("click", yesDificulty);
+noDificultyButton.addEventListener("click", noDificulty);
+
+function noDificulty(){
+    dificultyButton.classList.add("hidden");
+    if (chosenColor) {
+        image.src = "moving_"+chosenColor+".gif";
+    }
+    else {
+        image.src = "moving_blue.gif";
+    }
+    scheduleNextTree();
+
+}
+
+function chooseDificulty(){
+    dificultyButton.classList.remove("hidden");
+}
+
+
+function yesDificulty(){
+    for(let i = 0; i < 3; i++){
+        intervals[i] = intervals[i] - 500;
+    }
+    dificultyButton.classList.add("hidden");
+    if (chosenColor) {
+        image.src = "moving_"+chosenColor+".gif";
+    }
+    else {
+        image.src = "moving_blue.gif";
+    }
+    scheduleNextTree();
+}
+
 
 const canvas = document.getElementById("gameScreen");
 const context = canvas.getContext("2d");
-
 const backgroundImage = new Image();
+
 backgroundImage.src = "background.jpg"; 
 
 function resizeCanvas() {
@@ -31,17 +80,19 @@ function resizeCanvas() {
     drawBackground();
 }
 
-function drawBackground() {
-    context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-}
-
 window.addEventListener("resize", resizeCanvas);
 window.addEventListener("load", () => {
     resizeCanvas();
     drawBackground();
 });
 
+function drawBackground() {
+    context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+}
+
+
 function startGame() {
+    score.classList.remove("hidden");
     personaliseButton.classList.add("hidden");
     how.classList.add("hidden");
     if (chosenColor) {
@@ -60,32 +111,52 @@ function startGame() {
 }
 
 function scheduleNextTree() {
-    const randomIndex = Math.floor(Math.random() * 3);
 
-    setTimeout(createNewTree, intervals[randomIndex]);
+    const randomIndex = Math.floor(Math.random() * 3);
+    treeTimeout = setTimeout(createNewTree, intervals[randomIndex]);
+
 }
 
 function endGame() { 
-    gameOver.classList.remove("hidden");
+
+    clearTimeout(treeTimeout);
+
+    score.classList.add("hidden");
+
+    gameOver.classList.remove("hidden");    
+    gameEnding.classList.remove("hidden");
+    playagainButton.classList.remove("hidden");
+
+    if (chosenColor){
+        image.src = "sitting_"+chosenColor+".gif";
+    }
+    else {
+        image.src = "sitting_blue.gif";
+    }
+
 }
 
 function restartGame() {
-
-    failedButton.classList.add("hidden");
-    gameStatus.classList.remove("collision");
-
+    
+    failedButton.classList.add("hidden"); 
+    
     trees.forEach(tree => tree.remove());
     trees.length = 0;
+    
+    gameStatus.classList.remove("collision");
 
+    dificultyButton.classList.remove("hidden");
 
-    gameOver.classList.add("hidden");
+}
 
+function restart2Game() {
 
-    scheduleNextTree(); 
+    location.reload();
 
 }
 
 function createNewTree() {
+
     const treeImage = document.createElement("img");
     treeImage.src = "tree.png";
     treeImage.alt = "tree";
@@ -94,15 +165,14 @@ function createNewTree() {
     trees.push(treeImage);
     moveTree(treeImage);
     
-    if (!gameStatus.classList.contains("collision")) {
-        scheduleNextTree(); 
-    }
+    scheduleNextTree(); 
 }
 
 function moveTree(tree) {
+    
     const containerWidth = window.innerWidth;
     let currentPosition = containerWidth;
-    const dinoRect = document.querySelector(".dino").getBoundingClientRect();
+    const dinoRect = dino.getBoundingClientRect();
     const dinoX = dinoRect.left;
     move();
 
@@ -110,16 +180,12 @@ function moveTree(tree) {
 
         if (gameStatus.classList.contains("collision")) {
 
-                        
             cancelAnimationFrame(animationFrameId);
-            tree.remove();
-
-            //clearInterval(treeInterval);
+            clearTimeout(treeTimeout);
             return;
         }
 
         if (dinoX > currentPosition) {
-
 
             tree.remove();
             passedTrees++;
@@ -132,6 +198,7 @@ function moveTree(tree) {
         
         if (!checkCollision(tree)) {
             if (remainingStars === 1) {
+                tree.remove();
                 decreaseStars();
                 endGame();
             }
@@ -140,10 +207,17 @@ function moveTree(tree) {
                 decreaseStars();
                 failedButton.classList.remove("hidden");
             }
-            
-            console.log("Game Over");
+
+            if (chosenColor){
+                image.src = "sitting_"+chosenColor+".gif";
+            }
+            else {
+                image.src = "sitting_blue.gif";
+            }
+
             cancelAnimationFrame(animationFrameId);
             tree.remove();
+            clearTimeout(treeTimeout);
             gameStatus.classList.add("collision");
             return;
         }  
@@ -154,22 +228,20 @@ function moveTree(tree) {
 }
 
 
-
-
 function checkCollision(tree) {
-    const dinoRect = document.querySelector(".dino").getBoundingClientRect();
 
+    const dinoRect = dino.getBoundingClientRect();
     const dinoCenterX = (dinoRect.left + dinoRect.width) / 2;
     const dinoCenterY = (dinoRect.top + dinoRect.height) / 2;
 
-        const treeRect = tree.getBoundingClientRect();
+    const treeRect = tree.getBoundingClientRect();
 
-        const treeCenterX = (treeRect.left + treeRect.width) / 2;
-        const treeCenterY = (treeRect.top + treeRect.height) / 2;
+    const treeCenterX = (treeRect.left + treeRect.width) / 2;
+    const treeCenterY = (treeRect.top + treeRect.height) / 2;
 
-        if (
-            Math.abs(dinoCenterX - treeCenterX) < 30 &&
-            Math.abs(dinoCenterY - treeCenterY) < 30
+    if (
+        Math.abs(dinoCenterX - treeCenterX) < 10 &&
+        Math.abs(dinoCenterY - treeCenterY) < 30
         ) {
             return false;
         }
@@ -178,6 +250,7 @@ function checkCollision(tree) {
 }
 
 function decreaseStars() {
+
     remainingStars--;
     for (let i = 0; i < stars.length; i++) {
         if (!stars[i].classList.contains("white")) {
@@ -185,8 +258,12 @@ function decreaseStars() {
             return;
         }
     }
+
 }
 
 function updateScore() {
+
     scoreElement.textContent = `Trees Passed: ${passedTrees}`;
+    finalscoreElement.textContent = `You have managed to jump over ${passedTrees} trees.`;
+
 }

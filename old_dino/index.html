@@ -48,11 +48,20 @@
     Now you are ready. Press 'Start Game!!' and have lots of fuuunnn!!!
     </div>
 
-    <button id="failedButton" class="hidden">One star down <span id="textName"></span>, try again!!</button>
-    <div id="gameOver" class="hidden">
-        <h1>Game Over!!</h1>
+    <button id="failedButton" class="hidden">One star down <span id="textName1"></span>, try again!!</button>
+    <div class = "dificulty"> Increase difficulty? 
+        <button id="yesDificulty" class="smallButtonLeft">Yes!</button>
+        <button id="noDificulty" class="smallButtonRight">No!</button>
     </div>
-    
+    <div id="gameOver" class ="hidden">Game Over!!</div>
+    <div class="ending" id="ending">
+    <p> Nicely played <span id="textName2"></span>!! </p>
+    <p class="finalscore"> You have managed to jump over 0 trees. </p>
+    <p> Now, try to beat your score! </p>
+    <div> <button class="button" id="playagainButton">Play again</button> </div>
+    </div>
+    </div>
+
     <script src="personalise.js"></script>
     <script src="game.js"></script>
     <script src="dino.js"></script>

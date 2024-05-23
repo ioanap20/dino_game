@@ -1,9 +1,9 @@
 "use strict";
 
 const gameStatus = document.querySelector(".gameStatus");
+const dino = document.querySelector(".dino");
 const scoreElement = document.querySelector(".score");
 const finalscoreElement = document.querySelector(".finalscore");
-const dino = document.querySelector(".dino");
 const dificultyButton = document.querySelector(".dificulty");
 
 const yesDificultyButton = document.getElementById("yesDificulty");
@@ -23,7 +23,6 @@ const gameOver = document.getElementById("gameOver");
 const gameEnding = document.getElementById("ending");
 const passTrees = document.querySelector("#passTrees");
 const playagainButton = document.getElementById("playagainButton");
-
 
 gameStatus.classList.add("firstGame");
 gameEnding.classList.add("hidden");
@@ -67,12 +66,11 @@ function yesDificulty(){
     scheduleNextTree();
 }
 
-
 const canvas = document.getElementById("gameScreen");
 const context = canvas.getContext("2d");
 const backgroundImage = new Image();
 
-backgroundImage.src = "background.jpg"; 
+backgroundImage.src = "background.jpg";
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -89,7 +87,6 @@ window.addEventListener("load", () => {
 function drawBackground() {
     context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 }
-
 
 function startGame() {
     score.classList.remove("hidden");
@@ -114,7 +111,6 @@ function scheduleNextTree() {
 
     const randomIndex = Math.floor(Math.random() * 3);
     treeTimeout = setTimeout(createNewTree, intervals[randomIndex]);
-
 }
 
 function endGame() { 
@@ -137,13 +133,13 @@ function endGame() {
 }
 
 function restartGame() {
-    
-    failedButton.classList.add("hidden"); 
-    
+
+    failedButton.classList.add("hidden");
+
+    gameStatus.classList.remove("collision");
+
     trees.forEach(tree => tree.remove());
     trees.length = 0;
-    
-    gameStatus.classList.remove("collision");
 
     dificultyButton.classList.remove("hidden");
 
@@ -166,10 +162,11 @@ function createNewTree() {
     moveTree(treeImage);
     
     scheduleNextTree(); 
+
 }
 
 function moveTree(tree) {
-    
+
     const containerWidth = window.innerWidth;
     let currentPosition = containerWidth;
     const dinoRect = dino.getBoundingClientRect();
@@ -227,7 +224,6 @@ function moveTree(tree) {
 
 }
 
-
 function checkCollision(tree) {
 
     const dinoRect = dino.getBoundingClientRect();
@@ -250,7 +246,6 @@ function checkCollision(tree) {
 }
 
 function decreaseStars() {
-
     remainingStars--;
     for (let i = 0; i < stars.length; i++) {
         if (!stars[i].classList.contains("white")) {
@@ -258,12 +253,9 @@ function decreaseStars() {
             return;
         }
     }
-
 }
 
 function updateScore() {
-
     scoreElement.textContent = `Trees Passed: ${passedTrees}`;
     finalscoreElement.textContent = `You have managed to jump over ${passedTrees} trees.`;
-
 }

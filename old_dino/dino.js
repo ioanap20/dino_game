@@ -1,11 +1,8 @@
 "use strict";
 
-const dino = document.querySelector(".dino");
-
 let dinoY = 50;
 let jumping = false;
-const jumpHeight = 300; 
-const jumpDuration = 800; 
+const jumpDuration = 500; 
 let jumpStartTime = 0;
 
 document.addEventListener("keydown", pressDownAction);
@@ -22,7 +19,7 @@ function pressUpAction(event) {
 function jump() {
     const currentTime = performance.now();
     const elapsedTime = currentTime - jumpStartTime;
-    const velocity = 0.4;
+    const velocity = 0.5;
 
     const jumpDistance = elapsedTime * velocity;
 
@@ -47,7 +44,7 @@ function fall(jumpStartTime) {
         return;
     }
 
-    const gravity = 0.005; 
+    const gravity = 0.007; 
     const fallDistance = gravity * elapsedTime;
     dinoY -= fallDistance;
     dino.style.bottom = dinoY + "px";
