@@ -12,7 +12,7 @@ audioLicking.classList.add("hidden");
 document.addEventListener("keydown", pressDownAction);
 document.addEventListener("keyup", pressUpAction);
 
-function pressUpAction(event) {
+function pressDownAction(event) {
     if (event.code === "Space" && !jumping) {
         jumping = true;
         jumpStartTime = performance.now(); 
@@ -34,7 +34,6 @@ function jump() {
     if (elapsedTime < jumpDuration) {
         requestAnimationFrame(jump);
     } else {
-        jumping = false;
         fall(jumpStartTime); 
     }
 }
@@ -46,6 +45,7 @@ function fall(jumpStartTime) {
     if (dinoY <= 50) {
         dinoY = 50;
         dino.style.bottom = dinoY + "px";
+        jumping = false;
         return;
     }
 
@@ -55,10 +55,4 @@ function fall(jumpStartTime) {
     dino.style.bottom = dinoY + "px";
 
     requestAnimationFrame(() => fall(jumpStartTime)); 
-}
-
-function pressDownAction(event) {
-    if (event.code === "Space" && jumping) {
-        jumping = false;
-    }
 }

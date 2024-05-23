@@ -54,7 +54,7 @@ function chooseDificulty(){
 
 function yesDificulty(){
     for(let i = 0; i < 3; i++){
-        intervals[i] = intervals[i] - 500;
+        intervals[i] = intervals[i] - 450;
     }
     dificultyButton.classList.add("hidden");
     if (chosenColor) {
