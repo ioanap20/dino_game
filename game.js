@@ -54,7 +54,7 @@ function chooseDificulty(){
 
 function yesDificulty(){
     for(let i = 0; i < 3; i++){
-        intervals[i] = intervals[i] - 450;
+        intervals[i] = intervals[i] - 400;
     }
     dificultyButton.classList.add("hidden");
     if (chosenColor) {
@@ -237,7 +237,7 @@ function checkCollision(tree) {
 
     if (
         Math.abs(dinoCenterX - treeCenterX) < 10 &&
-        Math.abs(dinoCenterY - treeCenterY) < 30
+        Math.abs(dinoCenterY - treeCenterY) < 26
         ) {
             return false;
         }
