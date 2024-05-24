@@ -2,24 +2,29 @@
 
 let dinoY = 50;
 let jumping = false;
-const jumpDuration = 500; 
+const jumpHeight = 300; 
+const jumpDuration = 600; 
 let jumpStartTime = 0;
+
+const audioLicking = document.getElementById('audio');
+audioLicking.classList.add("hidden");
 
 document.addEventListener("keydown", pressDownAction);
 document.addEventListener("keyup", pressUpAction);
 
-function pressUpAction(event) {
+function pressDownAction(event) {
     if (event.code === "Space" && !jumping) {
         jumping = true;
         jumpStartTime = performance.now(); 
         requestAnimationFrame(jump);
+        audio.play();
     }
 }
 
 function jump() {
     const currentTime = performance.now();
     const elapsedTime = currentTime - jumpStartTime;
-    const velocity = 0.5;
+    const velocity = 0.4;
 
     const jumpDistance = elapsedTime * velocity;
 
@@ -29,7 +34,6 @@ function jump() {
     if (elapsedTime < jumpDuration) {
         requestAnimationFrame(jump);
     } else {
-        jumping = false;
         fall(jumpStartTime); 
     }
 }
@@ -41,19 +45,14 @@ function fall(jumpStartTime) {
     if (dinoY <= 50) {
         dinoY = 50;
         dino.style.bottom = dinoY + "px";
+        jumping = false;
         return;
     }
 
-    const gravity = 0.007; 
+    const gravity = 0.005; 
     const fallDistance = gravity * elapsedTime;
     dinoY -= fallDistance;
     dino.style.bottom = dinoY + "px";
 
     requestAnimationFrame(() => fall(jumpStartTime)); 
-}
-
-function pressDownAction(event) {
-    if (event.code === "Space" && jumping) {
-        jumping = false;
-    }
 }

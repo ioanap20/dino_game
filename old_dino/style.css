@@ -62,7 +62,7 @@
     font-size: 40px;
 }
 
-.color{
+.color {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -97,6 +97,43 @@
 #green {
     top: 385px;
     color: rgba(141,232,176,255);
+}
+
+#songButton{
+    top: 245px;
+    font-size: 40px;
+}
+
+.song {
+    color: rgb(235, 11, 157);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.song:hover {
+    font-weight: bold;
+    cursor: pointer;
+} 
+
+#_1 {
+    top: 105px;
+    font-size: 30px;
+}
+
+#_2 {
+    top: 175px;
+    font-size: 30px;
+}
+
+#_3 {
+    top: 245px;
+    font-size: 15px;
+}
+
+#_4 {
+    top: 315px;
+    font-size: 25px;
 }
 
 #doneButton{
